@@ -1,0 +1,12 @@
+{
+  "name": "s2-cell-id-converter",
+  "version": "1.0.0",
+  "description": "A single-page application that converts latitude/longitude pairs and an S2 cell level to an S2 cell ID.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

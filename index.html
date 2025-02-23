@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S2 Cell ID Debugger</title>
+    <link href="style.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>
+        🗺️
+    </text></svg>">
+</head>
+<body>
+    <!-- external scripts -->
+    <script src="scripts/wasm_exec.js"></script>
+    <!-- <script async defer src="https://buttons.github.io/buttons.js"></script> -->
+
+    <div class="container">
+        <h1>S2 Cell ID Debugger</h1>
+        <label for="latitude">Latitude</label>
+        <input type="number" id="latitude" placeholder="Latitude" step="0.000000000000001">
+        
+        <br><br>
+
+        <label for="longitude">Longitude</label>
+        <input type="number" id="longitude" placeholder="Longitude" step="0.000000000000001">
+        
+        <br><br>
+
+        <label for="level">S2 Cell Level</label>
+        <input type="number" id="level" placeholder="S2 Level" min="0" max="30">
+        
+        <br><br>
+
+        <label for="s2_cell_id_uint">S2 Cell ID (unsigned)
+            <span class="info-icon">
+                ℹ️
+                <span class="tooltiptext">Unsigned 64-bit representation of the S2 cell ID.</span>
+            </span>
+        </label>
+        <input type="text" id="s2_cell_id_uint" placeholder="S2 Cell ID (uint64)">
+
+        <br><br>
+
+        <label for="s2_cell_id_int">S2 Cell ID (signed)
+            <span class="info-icon">
+                ℹ️
+                <span class="tooltiptext">Signed 64-bit representation of the S2 cell ID.</span>
+            </span>
+        </label>
+        <input type="text" id="s2_cell_id_int" placeholder="S2 Cell ID (int64)">
+
+        <br><br>
+
+        <label for="s2_cell_id_int">S2 Cell Token
+            <span class="info-icon">
+                ℹ️
+                <span class="tooltiptext">Token representation of the S2 cell ID. Leading and trailing zeros stripped.</span>
+            </span>
+        </label>
+        <input type="text" id="s2_cell_token" placeholder="S2 Cell Token">
+
+        <br><br>
+
+        <button onclick="convert()">Convert</button>
+    </div>
+    <div class="links">
+        <a href="https://github.com/dmalataeva/ageo" class="repo-link">
+            <img src="resources/github-icon.png" alt="GitHub" id=github-icon>
+        </a>
+    </div>
+
+    <!-- ageo scripts -->
+    <script>
+        // polyfill
+        // https://github.com/igorgatis/ws2/blob/master/docs/index.html#L149C3-L154C4
+        if (!WebAssembly.instantiateStreaming) {
+			WebAssembly.instantiateStreaming = async (resp, importObject) => {
+				const source = await (await resp).arrayBuffer();
+				return await WebAssembly.instantiate(source, importObject);
+			};
+		}
+
+        const go = new Go();
+        let wasmModule;
+
+        WebAssembly.instantiateStreaming(fetch("scripts/main.wasm"), go.importObject)
+            .then(result => {
+                wasmModule = result.instance;
+                go.run(wasmModule);
+            });
+
+        async function run() {
+			console.clear();
+			await go.run(inst);
+			inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
+		}
+
+        function convert() {
+            const latitude = document.getElementById("latitude").value;
+            const longitude = document.getElementById("longitude").value;
+            const level = document.getElementById("level").value;
+
+            document.getElementById("s2_cell_id_uint").value = window.convert_to_s2_cell_id_uint(latitude, longitude, level);
+            document.getElementById("s2_cell_id_int").value = window.convert_to_s2_cell_id_int(latitude, longitude, level);
+            document.getElementById("s2_cell_token").value = window.convert_to_s2_cell_token(latitude, longitude, level);
+        }
+    </script>
+</body>
+</html>

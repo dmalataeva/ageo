@@ -1,0 +1,116 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+h1 {
+    text-align: center;
+    padding: 0% 10%;
+}
+
+.container {
+    width: 30%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+label {
+    margin: 5px;
+    text-align: left;
+    display: block;
+}
+
+input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px auto;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.info-icon {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 16px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.info-icon .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.info-icon .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+}
+
+.info-icon:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.links {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+.repo-link {
+    display: block;
+    text-align: center;
+}
+
+#github-icon {
+    width: 40px;
+    /* height: 20px; */
+}
